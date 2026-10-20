@@ -1,93 +1,230 @@
-// مصفوفة لتخزين البطاقات المتعددة
-let cardsList = [];
-let currentIndex = 0;
-let uploadedAvatarBase64 = null;
+// ==========================================
+// 1. التحكم في النوافذ المنبثقة (Modals)
+// ==========================================
+function openModal(id) {
+  const modal = document.getElementById(id);
+  if (modal) {
+    modal.classList.add('active');
+  }
+}
 
-// معاينة الصورة عند الرفع
-function previewImage(event) {
-    const file = event.target.files[0];
-    const label = document.getElementById('fileLabel');
-    
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            uploadedAvatarBase64 = e.target.result;
-            label.innerHTML = `<i class="fa-solid fa-check"></i> تم اختيار الصورة بنجاح`;
-            label.style.borderColor = '#e6c594';
-            label.style.color = '#e6c594';
-        };
-        reader.readAsDataURL(file);
+function closeModal(id) {
+  const modal = document.getElementById(id);
+  if (modal) {
+    modal.classList.remove('active');
+  }
+}
+
+// إغلاق النافذة عند الضغط خارج صندوق المحتوى
+window.onclick = function(event) {
+  if (event.target.classList.contains('modal-overlay')) {
+    event.target.classList.remove('active');
+  }
+};
+
+// ==========================================
+// 2. منطق المثال الأول: المتغيرات والعمليات الحسابية
+// ==========================================
+function calculate(op) {
+  const n1 = parseFloat(document.getElementById('num1').value);
+  const n2 = parseFloat(document.getElementById('num2').value);
+  const resBox = document.getElementById('calc-result');
+
+  if (isNaN(n1) || isNaN(n2)) {
+    resBox.innerText = "⚠️ يرجى إدخال أرقام صالحة!";
+    resBox.style.color = "#d32f2f";
+    return;
+  }
+
+  let res = 0;
+  if (op === '+') res = n1 + n2;
+  if (op === '-') res = n1 - n2;
+  if (op === '*') res = n1 * n2;
+  if (op === '/') {
+    if (n2 === 0) {
+      resBox.innerText = "⚠️ لا يمكن القسمة على الصفر!";
+      resBox.style.color = "#d32f2f";
+      return;
     }
+    res = n1 / n2;
+  }
+
+  resBox.innerText = `النتيجة: ${res}`;
+  resBox.style.color = "#2e7d32";
 }
 
-// إضافة بطاقة جديدة وحفظها
-function generateCard(e) {
-    e.preventDefault();
+// ==========================================
+// 3. منطق المثال الثاني: الجمل الشرطية (If / Else)
+// ==========================================
+function checkGrade() {
+  const score = parseFloat(document.getElementById('userScore').value);
+  const resBox = document.getElementById('condition-result');
 
-    const name = document.getElementById('userName').value.trim();
-    const age = document.getElementById('userAge').value.trim();
-    const job = document.getElementById('userJob').value.trim();
-    
-    const avatar = uploadedAvatarBase64 || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80";
+  if (isNaN(score)) {
+    resBox.innerText = "⚠️ يرجى إدخال درجة صالحة!";
+    resBox.style.color = "#d32f2f";
+    return;
+  }
 
-    // إدراج البطاقة الجديدة في المصفوفة
-    cardsList.push({ name, age, job, avatar });
-    currentIndex = cardsList.length - 1; // التوجه للبطاقة الجديدة المضافة
+  if (score < 0 || score > 100) {
+    resBox.innerText = "⚠️ الدرجة يجب أن تكون من 0 إلى 100!";
+    resBox.style.color = "#d32f2f";
+  } else if (score >= 90) {
+    resBox.innerText = `الدرجة (${score}): ممتاز 🌟 (Grade A)`;
+    resBox.style.color = "#2e7d32";
+  } else if (score >= 80) {
+    resBox.innerText = `الدرجة (${score}): جيد جداً 👍 (Grade B)`;
+    resBox.style.color = "#1565c0";
+  } else if (score >= 70) {
+    resBox.innerText = `الدرجة (${score}): جيد 👌 (Grade C)`;
+    resBox.style.color = "#f57c00";
+  } else if (score >= 50) {
+    resBox.innerText = `الدرجة (${score}): مقبول ⚖️ (Grade D)`;
+    resBox.style.color = "#ef6c00";
+  } else {
+    resBox.innerText = `الدرجة (${score}): راسب ❌ (Grade F)`;
+    resBox.style.color = "#c62828";
+  }
+}
+// ==========================================
+// 4. منطق المثال الثالث: الحلقات التكرارية (For Loop)
+// ==========================================
+function generateTable() {
+  const num = parseInt(document.getElementById('loopNum').value);
+  const resBox = document.getElementById('loop-result');
 
-    // تحديث وتفريغ نموذج الإدخال
-    document.getElementById('profileForm').reset();
-    uploadedAvatarBase64 = null;
-    document.getElementById('fileLabel').innerHTML = `<i class="fa-solid fa-image"></i> اختر صورة شخصية (اختياري)`;
+  if (isNaN(num)) {
+    resBox.innerText = "⚠️ يرجى إدخال رقم صحيح!";
+    resBox.style.color = "#d32f2f";
+    return;
+  }
 
-    // عرض البطاقات
-    renderCurrentCard();
+  // استخدام حلقة التكرار لإنشاء جدول الضرب من 1 إلى 10
+  let outputHTML = `<div style="font-weight: bold; margin-bottom: 8px; color: #2b6cb0;">جدول ضرب الرقم ${num}:</div>`;
+  
+  for (let i = 1; i <= 10; i++) {
+    let result = num * i;
+    outputHTML += `<div>${num} × ${i} = <span style="color: #2e7d32;">${result}</span></div>`;
+  }
 
-    // التبديل إلى واجهة البطاقة
-    document.getElementById('stepForm').classList.remove('active');
-    setTimeout(() => {
-        document.getElementById('stepCard').classList.add('active');
-    }, 200);
+  resBox.innerHTML = outputHTML;
+  resBox.style.color = "#2d3748";
+}
+// ==========================================
+// 5. التحكم في القائمة الجانبية (Sidebar)
+// ==========================================
+function toggleSidebar() {
+  const sidebar = document.getElementById('appSidebar');
+  if (sidebar) {
+    sidebar.classList.toggle('active');
+  }
+}
+// ==========================================
+// 6. منطق المثال الخامس: معالجة النصوص (String Methods)
+// ==========================================
+function analyzeText() {
+  const text = document.getElementById('textInput').value;
+  const resBox = document.getElementById('string-result');
+
+  if (!resBox) return;
+
+  if (text.trim() === "") {
+    resBox.innerHTML = "<span style='color: #718096;'>الرجاء إدخال نص لتحليله...</span>";
+    return;
+  }
+
+  const charCount = text.length;
+  const wordsCount = text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
+  const upperText = text.toUpperCase();
+  const lowerText = text.toLowerCase();
+
+  resBox.innerHTML = `
+    <div>📏 عدد الحروف: <span style="color: #2b6cb0; font-weight: bold;">${charCount}</span></div>
+    <div>Words عدد الكلمات: <span style="color: #2b6cb0; font-weight: bold;">${wordsCount}</span></div>
+    <div>🔠 بالحروف الكبيرة: <span style="color: #2e7d32; font-weight: bold;">${upperText}</span></div>
+    <div>🔡 بالحروف الصغيرة: <span style="color: #2e7d32; font-weight: bold;">${lowerText}</span></div>
+  `;
 }
 
-// عرض بيانات البطاقة الحالية
-function renderCurrentCard() {
-    if (cardsList.length === 0) return;
+// تنفيذ التحليل تلقائياً عند فتح النافذة لأول مرة
+document.addEventListener("DOMContentLoaded", function() {
+  // إذا أردت تشغيلها افتراضياً
+  if(document.getElementById('textInput')) {
+    analyzeText();
+  }
+});
+// ==========================================
+// 7. منطق المثال السادس: الكائنات (Objects)
+// ==========================================
+const userProfile = {
+  name: "تهاني المريسي",
+  role: "مطلورة ومصممة واجهات ويب",
+  status: "متاحة للعمل 🟢",
+  skills: ["HTML", "CSS", "JavaScript"]
+};
 
-    const currentCard = cardsList[currentIndex];
-    document.getElementById('cardName').innerText = currentCard.name;
-    document.getElementById('cardAge').innerText = currentCard.age + " سنة";
-    document.getElementById('cardJob').innerText = currentCard.job;
-    document.getElementById('cardAvatar').src = currentCard.avatar;
+function renderProfile() {
+  const displayBox = document.getElementById('profile-display');
+  if (!displayBox) return;
 
-    // تحديث عداد البطاقات
-    document.getElementById('cardCounter').innerText = `بطاقة ${currentIndex + 1} من ${cardsList.length}`;
+  displayBox.innerHTML = `
+    <div style="margin-bottom: 6px;">📌 <strong>الاسم:</strong> ${userProfile.name}</div>
+    <div style="margin-bottom: 6px;">💼 <strong>المهنة:</strong> ${userProfile.role}</div>
+    <div style="margin-bottom: 6px;">⚡ <strong>الحالة:</strong> <span style="color: #2e7d32;">${userProfile.status}</span></div>
+    <div>🛠️ <strong>المهارات:</strong> ${userProfile.skills.join(' - ')}</div>
+  `;
 }
 
-// التنقل للبطاقة السابقة
-function prevCard() {
-    if (currentIndex > 0) {
-        currentIndex--;
-        renderCurrentCard();
-    }
+function updateProfileStatus() {
+  // تغيير قيمة داخل الكائن وعرض التحديث فوراً
+  if (userProfile.status.includes("متاحة")) {
+    userProfile.status = "في وضع التطوير 🚀";
+  } else {
+    userProfile.status = "متاحة للعمل 🟢";
+  }
+  renderProfile();
 }
 
-// التنقل للبطاقة التالية
-function nextCard() {
-    if (currentIndex < cardsList.length - 1) {
-        currentIndex++;
-        renderCurrentCard();
-    }
+// تشغيل عرض الملف الشخصي أول فتح للملف
+document.addEventListener("DOMContentLoaded", function() {
+  renderProfile();
+});
+// ==========================================
+// 8. منطق المثال السابع: التاريخ والوقت (Date)
+// ==========================================
+function updateLiveTime() {
+  const displayBox = document.getElementById('time-display');
+  if (!displayBox) return;
+
+  const now = new Date();
+  const hours = now.getHours();
+  
+  // تحديد التحية بناءً على الوقت
+  let greeting = "أهلاً بك 👋";
+  if (hours >= 5 && hours < 12) {
+    greeting = "صباح الخير ☀️";
+  } else if (hours >= 12 && hours < 17) {
+    greeting = "طابت أوقاتكم 🌤️";
+  } else {
+    greeting = "مساء الخير 🌙";
+  }
+
+  const timeString = now.toLocaleTimeString('ar-EG');
+  const dateString = now.toLocaleDateString('ar-EG', { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  });
+
+  displayBox.innerHTML = `
+    <div style="font-size: 1.2rem; color: #2b6cb0; font-weight: bold; margin-bottom: 8px;">${greeting}</div>
+    <div style="font-size: 1.1rem; margin-bottom: 6px; color: #111;">⏰ الوقت: ${timeString}</div>
+    <div style="font-size: 0.955rem; color: #4a5568;">📅 التاريخ: ${dateString}</div>
+  `;
 }
 
-// إضافة بطاقة جديدة (الرجوع لصفحة الترحيب والإدخال)
-function addNewCardMode() {
-    goBack();
-}
-
-// زر العودة للرئيسية
-function goBack() {
-    document.getElementById('stepCard').classList.remove('active');
-    setTimeout(() => {
-        document.getElementById('stepForm').classList.add('active');
-    }, 200);
-}
+// تشغيل الساعة فور فتح النافذة
+document.addEventListener("DOMContentLoaded", function() {
+  updateLiveTime();
+});

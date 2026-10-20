@@ -1,148 +1,208 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة البطاقات التعريفية الرقمية</title>
-    <!-- خطوط عربية فاخرة -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Reem+Kufi:wght@600;700&display=swap" rel="stylesheet">
-    <!-- أيقونات FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+  <title>تطبيقات JavaScript</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- خلفية مضيئة بالألوان الكحلية والبيج -->
-    <div class="glow-bg"></div>
+  <!-- الشريط المتحرك العلوي -->
+  <div class="ticker-bar">
+    <div class="ticker-text">
+      ✨ أهلاً بك في منصة تطبيقات JavaScript التفاعلية 🚀 | تدرّج معنا خطوة بخطوة من المتغيرات وحتى المصفوفات والقوائم الذكية 💡 | صُمم التطبيق خصيصاً لتسهيل تعلم البرمجة بطريقة عصرية ✨
+    </div>
+  </div>
 
-    <!-- البطاقة الرئيسية -->
-    <div class="glass-card">
-        
-        <!-- ================= الواجهة الأولى: إدخال البيانات والترحيب ================= -->
-        <div id="stepForm" class="view-section active">
-            
-            <!-- الشريط الترحيبي المتحرك في الأعلى -->
-            <div class="marquee-wrapper">
-                <div class="marquee-content">
-                    ✨ مرحباً بك في منصة البطاقات التعريفية الرقمية.. ابتكر بطاقتك الذكية بلمسة زجاجية فريدة ✨
-                </div>
-            </div>
+  <!-- زر فتح القائمة الجانبية -->
+  <button class="sidebar-toggle-btn" onclick="toggleSidebar()">☰ القائمة</button>
 
-            <!-- صورة ترحيبية مستطيلة أفقياً بأبعاد العرض كاملة وطول محدد -->
-            <div class="welcome-banner">
-                <img id="welcomeBannerImg" src="image/asen(2).jpg" alt="غلاف الترحيب">
-                <div class="banner-overlay">
-                    <div class="brand-logo">SPACE</div>
-                    <p>منصة إنشاء البطاقات الرقمية</p>
-                </div>
-            </div>
+  <!-- القائمة الجانبية المتجاورة -->
+  <aside class="sidebar" id="appSidebar">
+    <button class="sidebar-close" onclick="toggleSidebar()">✕</button>
+    <h3>قائمة الأمثلة</h3>
+    <div class="sidebar-item" onclick="openModal('modal-calc'); toggleSidebar();">1. المتغيرات والحساب</div>
+    <div class="sidebar-item" onclick="openModal('modal-cond'); toggleSidebar();">2. الجمل الشرطية</div>
+    <div class="sidebar-item" onclick="openModal('modal-loop'); toggleSidebar();">3. الحلقات التكرارية</div>
+    <div class="sidebar-item" onclick="openModal('modal-array'); toggleSidebar();">4. إدارة المصفوفات</div>
+    <div class="sidebar-item" onclick="openModal('modal-string'); toggleSidebar();">5. معالجة النصوص</div>
+    <div class="sidebar-item" onclick="openModal('modal-object'); toggleSidebar();">6. كائنات جافاسكريبت</div>
+    <div class="sidebar-item" onclick="openModal('modal-date'); toggleSidebar();">7. التاريخ والوقت</div>
+  </aside>
 
-            <!-- نموذج الإدخال -->
-            <form id="profileForm" onsubmit="generateCard(event)">
-                <div class="input-group">
-                    <label for="userName"><i class="fa-solid fa-user"></i> الاسم الكامل</label>
-                    <input type="text" id="userName" class="input-field" placeholder="مثال: فهد العتيبي" required>
-                </div>
+  <!-- الهيدر اللؤلؤي -->
+  <header>
+    <h1>✨ تطبيقات JavaScript</h1>
+    <p>منصة تفاعلية متكاملة لتجربة وفهم أساسيات البرمجة بتصميم لؤلؤي أنيق</p>
+  </header>
 
-                <div class="input-group">
-                    <label for="userAge"><i class="fa-solid fa-cake-candles"></i> العمر</label>
-                    <input type="number" id="userAge" class="input-field" placeholder="مثال: 28" min="1" max="120" required>
-                </div>
-
-                <div class="input-group">
-                    <label for="userJob"><i class="fa-solid fa-briefcase"></i> الوظيفة</label>
-                    <input type="text" id="userJob" class="input-field" placeholder="مثال: مصمم جرافيك" required>
-                </div>
-
-                <div class="file-upload-wrapper">
-                    <label for="avatarInput" class="file-upload-label" id="fileLabel">
-                        <i class="fa-solid fa-image"></i> اختر صورة شخصية (اختياري)
-                    </label>
-                    <input type="file" id="avatarInput" accept="image/*" onchange="previewImage(event)">
-                </div>
-
-                <button type="submit" class="btn-primary">
-                    إنشاء وعرض البطاقة <i class="fa-solid fa-arrow-left"></i>
-                </button>
-            </form>
-        </div>
-
-        <!-- ================= الواجهة الثانية: عرض البطاقة المستدعاة ================= -->
-        <div id="stepCard" class="view-section">
-            
-            <!-- شريط التنقل العلوي للبطاقة (يحتوي على زر العودة وزر التنقل بين البطاقات) -->
-            <div class="card-nav-bar">
-                <button class="btn-back" onclick="goBack()">
-                    <i class="fa-solid fa-arrow-right"></i> العودة للرئيسية
-                </button>
-                <span class="card-counter" id="cardCounter">بطاقة 1 من 1</span>
-            </div>
-
-            <!-- هيدر البطاقة والصورة الشخصية -->
-            <div class="card-header">
-                <div class="avatar-container">
-                    <img id="cardAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="صورة شخصية">
-                </div>
-                <div class="space-title">SPACE</div>
-            </div>
-
-            <!-- الاسم -->
-            <div class="name-box">
-                الاسم: [<span id="cardName">فهد العتيبي</span>]
-            </div>
-
-            <!-- العمر والوظيفة -->
-            <div class="info-glass-box">
-                <div class="info-row border-bottom">
-                    العمر: <span id="cardAge">28 سنة</span>
-                </div>
-                <div class="info-row">
-                    الوظيفة: <span id="cardJob">مصمم جرافيك</span>
-                </div>
-            </div>
-
-            <!-- قائمة التفاصيل والتواصل -->
-            <div class="details-list">
-            
-            
-            
-                
-            </div>
-
-            <!-- أزرار التحكم في السجل متعدد البطاقات -->
-            <div class="multi-card-controls">
-                <button class="btn-beige" onclick="prevCard()"><i class="fa-solid fa-chevron-right"></i> السابقة</button>
-                <button class="btn-beige" onclick="nextCard()">التالية <i class="fa-solid fa-chevron-left"></i></button>
-            </div>
-
-            <button class="btn-add-new" onclick="addNewCardMode()">
-                <i class="fa-solid fa-plus"></i> إضافة بطاقة جديدة
-            </button>
-
-        </div>
-
+  <!-- شبكة بطاقات الأمثلة -->
+  <main class="grid">
+    <!-- البطاقة 1 -->
+    <div class="icon-card" onclick="openModal('modal-calc')">
+      <div class="icon">🧮</div>
+      <h3>1. المتغيرات والحساب</h3>
+      <p>تطبيق الآلة الحاسبة الذكية بحساب المتغيرات</p>
+      <span class="badge">جاهز للتجربة</span>
     </div>
 
-    <!-- التوقيع في أقصى أسفل الصفحة -->
-    <footer>
-        <div class="signature-small">
-            تصميم تهاني المريسي
-        </div>
-    </footer>
+    <!-- البطاقة 2 -->
+    <div class="icon-card" onclick="openModal('modal-cond')">
+      <div class="icon">⚖️</div>
+      <h3>2. الجمل الشرطية</h3>
+      <p>فحص الدرجات وتقييم التقديرات الذكي</p>
+      <span class="badge">جاهز للتجربة</span>
+    </div>
 
-    <script src="script.js"></script>
+    <!-- البطاقة 3 -->
+    <div class="icon-card" onclick="openModal('modal-loop')">
+      <div class="icon">🔄</div>
+      <h3>3. الحلقات التكرارية</h3>
+      <p>توليد جداول الضرب والتكرارات التلقائية باستخدام For Loop</p>
+      <span class="badge">جاهز للتجربة</span>
+    </div>
+
+    <!-- البطاقة 4 -->
+    <div class="icon-card" onclick="openModal('modal-array')">
+      <div class="icon">📦</div>
+      <h3>4. إدارة المصفوفات</h3>
+      <p>إدارة وقوائم البيانات الديناميكية (Arrays & Methods)</p>
+      <span class="badge">جاهز للتجربة</span>
+    </div>
+    <!-- 5. البطاقة الخامسة: معالجة النصوص -->
+    <div class="icon-card" onclick="openModal('modal-string')">
+      <div class="icon">🔤</div>
+      <h3>5. معالجة النصوص</h3>
+      <p>تحليل النصوص، حساب الحروف، والتحويل الفوري</p>
+      <span class="badge">جاهز للتجربة</span>
+    </div>
+
+    <!-- 6. البطاقة السادسة: كائنات جافاسكريبت -->
+    <div class="icon-card" onclick="openModal('modal-object')">
+      <div class="icon">👤</div>
+      <h3>6. كائنات جافاسكريبت</h3>
+      <p>تنظيم وإدارة البيانات المركبة عبر الـ Objects</p>
+      <span class="badge">جاهز للتجربة</span>
+    </div>
+
+    <!-- 7. البطاقة السابعة: التاريخ والوقت -->
+    <div class="icon-card" onclick="openModal('modal-date')">
+      <div class="icon">⏰</div>
+      <h3>7. التاريخ والوقت</h3>
+      <p>عرض التوقيت الحي والتحية التلقائية باستخدام Date Object</p>
+      <span class="badge">جاهز للتجربة</span>
+    </div>
+  </main>
+
+  <!-- النوافذ المنبثقة (Modals) -->
+  <div class="modal-overlay" id="modal-calc">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal('modal-calc')">✕</button>
+      <h2 class="modal-title">🧮 آلة الحساب اللؤلؤية</h2>
+      <p class="modal-desc">تطبيق مباشر على المتغيرات والعمليات الحسابية</p>
+      <div class="input-group">
+        <input type="number" id="num1" placeholder="الرقم الأول" value="15">
+        <input type="number" id="num2" placeholder="الرقم الثاني" value="5">
+      </div>
+      <div class="btn-grid">
+        <button class="action-btn" onclick="calculate('+')">+</button>
+        <button class="action-btn" onclick="calculate('-')">-</button>
+        <button class="action-btn" onclick="calculate('*')">×</button>
+        <button class="action-btn" onclick="calculate('/')">÷</button>
+      </div>
+      <div class="result-box" id="calc-result">اختر عملية حسابية</div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-cond">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal('modal-cond')">✕</button>
+      <h2 class="modal-title">⚖️ برنامج التقديرات الشفاف</h2>
+      <p class="modal-desc">تطبيق على استخدام الجمل الشرطية</p>
+      <div class="input-group">
+        <input type="number" id="userScore" placeholder="أدخل الدرجة (من 0 إلى 100)" value="85">
+      </div>
+      <button class="action-btn full" onclick="checkGrade()" style="margin-bottom: 20px;">فحص التقدير</button>
+      <div class="result-box" id="condition-result">أدخل الدرجة واضغط فحص</div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-loop">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal('modal-loop')">✕</button>
+      <h2 class="modal-title">🔄 مولد جدول الضرب (Loops)</h2>
+      <p class="modal-desc">تطبيق عملي لحلقات التكرار</p>
+      <div class="input-group">
+        <input type="number" id="loopNum" placeholder="أدخل رقماً" value="5">
+      </div>
+      <button class="action-btn full" onclick="generateTable()" style="margin-bottom: 20px;">توليد الجدول</button>
+      <div class="result-box" id="loop-result" style="text-align: right; max-height: 150px; overflow-y: auto;">اختر رقماً لتوليد الجدول</div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-array">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal('modal-array')">✕</button>
+      <h2 class="modal-title">📦 إدارة القوائم (Arrays)</h2>
+      <p class="modal-desc">تطبيق عملي على مصفوفات جافاسكريبت</p>
+      <div class="input-group" style="flex-direction: row; gap: 8px;">
+        <input type="text" id="arrayItemInput" placeholder="أدخل عنصراً جديداً..." style="flex: 1;">
+        <button class="action-btn" onclick="addArrayItem()" style="padding: 12px 20px;">إضافة ➕</button>
+      </div>
+      <div class="result-box" id="array-result" style="text-align: right; max-height: 180px; overflow-y: auto;">جاري تحميل العناصر...</div>
+    </div>
+  </div>
+<!-- النافذة المنبثقة للمثال 5 (معالجة النصوص) -->
+  <div class="modal-overlay" id="modal-string">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal('modal-string')">✕</button>
+      <h2 class="modal-title">🔤 محلل النصوص الذكي</h2>
+      <p class="modal-desc">تطبيق عملي على دوال النصوص (length, toUpperCase, toLowerCase)</p>
+
+      <div class="input-group">
+        <input type="text" id="textInput" placeholder="اكتب أي نص هنا..." oninput="analyzeText()" value="مرحباً بكم في عالم جافاسكريبت">
+      </div>
+
+      <div class="result-box" id="string-result" style="text-align: right; line-height: 1.8;">
+        أدخل نصاً لمعالجته...
+      </div>
+    </div>
+  </div>
+  <footer>
+    <p>تطبيقات JavaScript الاحترافية ✨</p>
+
+    <!-- النافذة المنبثقة للمثال 6 (الكائنات - Objects) -->
+  <div class="modal-overlay" id="modal-object">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal('modal-object')">✕</button>
+      <h2 class="modal-title">👤 ملف الشخصية (Objects)</h2>
+      <p class="modal-desc">تطبيق عملي على هيكلة البيانات المعقدة داخل الكائنات</p>
+
+      <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 12px; margin-bottom: 15px; text-align: right;" id="profile-display">
+        <!-- سيتم تعبئة البيانات هنا برمجياً -->
+      </div>
+
+      <button class="action-btn full" onclick="updateProfileStatus()">تغيير الحالة البرمجية ⚡</button>
+    </div>
+  </div>
+
+  <!-- النافذة المنبثقة للمثال 7 (التاريخ والوقت) -->
+  <div class="modal-overlay" id="modal-date">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal('modal-date')">✕</button>
+      <h2 class="modal-title">⏰ الساعة والتقويم الذكي</h2>
+      <p class="modal-desc">تطبيق عملي لكائن التاريخ (Date) واستخراج الساعات والتواريخ</p>
+
+      <div style="background: rgba(255,255,255,0.8); padding: 18px; border-radius: 12px; margin-bottom: 20px; text-align: center;" id="time-display">
+        <!-- سيتم عرض الوقت والتاريخ هنا -->
+      </div>
+
+      <button class="action-btn full" onclick="updateLiveTime()">تحديث الوقت الآن 🔄</button>
+    </div>
+  </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
